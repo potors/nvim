@@ -12,3 +12,5 @@ for _, name in ipairs {
     'matchit', 'matchparen',
     'vimball', 'vimballPlugin',
 } do vim.g['loaded_' .. name] = 1 end
+
+require 'options'
