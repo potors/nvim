@@ -46,6 +46,8 @@ local function configure(name, opts)
     return plugin
 end
 
+vim.notify = configure 'mini.notify'.make_notify()
+
 add { source = 'catppuccin/nvim', name = 'catppuccin' }
 
 configure 'catppuccin'
