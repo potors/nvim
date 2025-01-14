@@ -65,3 +65,4 @@ add { source = 'nvim-treesitter/nvim-treesitter', name = 'treesitter',
 configure('nvim-treesitter.configs', 'treesitter')
 
 configure 'mini.icons'
+configure 'mini.ai'
