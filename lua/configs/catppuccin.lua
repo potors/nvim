@@ -43,6 +43,14 @@ local highlights = function(colors) return {
     -- statusline
     MiniStatuslineFilename = { fg = colors.subtext0, bg = colors.none },
     MiniStatuslineFileinfo = { bg = colors.mantle },
+
+    -- pick
+    MiniPickBorder = { fg = colors.surface2 },
+    MiniPickBorderBusy = { fg = colors.maroon },
+    MiniPickBorderText = { fg = colors.blue },
+    MiniPickPrompt = { fg = colors.text },
+    MiniPickNormal = { fg = colors.subtext1 },
+    MiniPickMatchRanges = { fg = colors.green },
 } end
 
 return {

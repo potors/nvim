@@ -74,3 +74,5 @@ configure 'mini.pairs'
 
 configure 'mini.tabline'
 configure 'mini.statusline'
+
+configure 'mini.pick'
