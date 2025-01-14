@@ -71,3 +71,5 @@ configure 'mini.surround'
 configure 'mini.trailspace'
 configure 'mini.move'
 configure 'mini.pairs'
+
+configure 'mini.tabline'

@@ -30,6 +30,15 @@ local highlights = function(colors) return {
     ['@keyword.repeat'] = { fg = colors.yellow },
     ['@keyword.return'] = { fg = colors.pink },
     ['@keyword.exception'] = { fg = colors.red },
+
+    -- tabline
+    MiniTablineCurrent = { fg = colors.blue, sp = colors.blue, style = { 'bold', 'underline' } },
+    MiniTablineVisible = { fg = colors.text },
+    MiniTablineHidden = { fg = colors.overlay1, style = { 'italic' } },
+    MiniTablineModifiedCurrent = { fg = colors.yellow, sp = colors.yellow, style = { 'bold', 'underline' } },
+    MiniTablineModifiedVisible = { fg = colors.text, sp = colors.yellow, style = { 'underline' } },
+    MiniTablineModifiedHidden = { fg = colors.overlay1, sp = colors.yellow, style = { 'underline', 'italic' } },
+    MiniTablineTabpagesection = { fg = colors.mantle, bg = colors.blue },
 } end
 
 return {
