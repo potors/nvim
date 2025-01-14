@@ -14,3 +14,4 @@ for _, name in ipairs {
 } do vim.g['loaded_' .. name] = 1 end
 
 require 'options'
+require 'keymaps'
