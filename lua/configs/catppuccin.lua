@@ -51,6 +51,11 @@ local highlights = function(colors) return {
     MiniPickPrompt = { fg = colors.text },
     MiniPickNormal = { fg = colors.subtext1 },
     MiniPickMatchRanges = { fg = colors.green },
+
+    -- files
+    MiniFilesBorder = { fg = colors.surface2 },
+    MiniFilesTitle = { fg = colors.subtext1 },
+    MiniFilesTitleFocused = { fg = colors.blue },
 } end
 
 return {

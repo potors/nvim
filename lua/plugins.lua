@@ -76,3 +76,4 @@ configure 'mini.tabline'
 configure 'mini.statusline'
 
 configure 'mini.pick'
+configure 'mini.files'
