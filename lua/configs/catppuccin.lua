@@ -3,8 +3,9 @@ local styles = {
     conditionals = { 'bold', 'italic' },
     loops = { 'bold', 'italic' },
     functions = { 'italic' },
-    keywords = { 'bold', 'italic' },
+    keywords = { 'bold' },
     booleans = { 'bold' },
+    types = { 'bold' },
 }
 
 local colors = {
@@ -17,6 +18,18 @@ local colors = {
 
 local highlights = function(colors) return {
     CursorLineNr = { fg = colors.yellow },
+
+    -- syntax
+    Number = { fg = colors.yellow },
+    Float = { fg = colors.yellow },
+    Boolean = { fg = colors.red },
+
+    ['@property'] = { fg = colors.lavender },
+
+    Keyword = { fg = colors.sky },
+    ['@keyword.repeat'] = { fg = colors.yellow },
+    ['@keyword.return'] = { fg = colors.pink },
+    ['@keyword.exception'] = { fg = colors.red },
 } end
 
 return {
@@ -29,5 +42,6 @@ return {
     default_integrations = false,
     integrations = {
         mini = { enabled = true },
+        treesitter = true,
     }
 }

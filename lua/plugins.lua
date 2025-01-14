@@ -52,3 +52,14 @@ add { source = 'catppuccin/nvim', name = 'catppuccin' }
 
 configure 'catppuccin'
 vim.cmd.colorscheme 'catppuccin'
+
+add { source = 'nvim-treesitter/nvim-treesitter', name = 'treesitter',
+    checkout = 'master', monitor = 'main',
+    hooks = {
+        post_checkout = function()
+            vim.cmd 'TSUpdate'
+        end,
+    },
+}
+
+configure('nvim-treesitter.configs', 'treesitter')
