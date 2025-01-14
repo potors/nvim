@@ -67,3 +67,4 @@ configure('nvim-treesitter.configs', 'treesitter')
 configure 'mini.icons'
 configure 'mini.ai'
 configure 'mini.comment'
+configure 'mini.surround'
