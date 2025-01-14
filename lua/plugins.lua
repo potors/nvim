@@ -45,3 +45,8 @@ local function configure(name, opts)
     plugin.setup(opts)
     return plugin
 end
+
+add { source = 'catppuccin/nvim', name = 'catppuccin' }
+
+configure 'catppuccin'
+vim.cmd.colorscheme 'catppuccin'
