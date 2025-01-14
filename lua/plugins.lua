@@ -77,3 +77,13 @@ configure 'mini.statusline'
 
 configure 'mini.pick'
 configure 'mini.files'
+
+add { source = 'neovim/nvim-lspconfig',
+    depends = {
+        'williamboman/mason.nvim',
+        'williamboman/mason-lspconfig.nvim',
+    },
+}
+
+configure 'mason'
+configure 'lsp'
