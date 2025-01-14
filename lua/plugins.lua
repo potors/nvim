@@ -73,3 +73,4 @@ configure 'mini.move'
 configure 'mini.pairs'
 
 configure 'mini.tabline'
+configure 'mini.statusline'

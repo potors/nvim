@@ -39,6 +39,10 @@ local highlights = function(colors) return {
     MiniTablineModifiedVisible = { fg = colors.text, sp = colors.yellow, style = { 'underline' } },
     MiniTablineModifiedHidden = { fg = colors.overlay1, sp = colors.yellow, style = { 'underline', 'italic' } },
     MiniTablineTabpagesection = { fg = colors.mantle, bg = colors.blue },
+
+    -- statusline
+    MiniStatuslineFilename = { fg = colors.subtext0, bg = colors.none },
+    MiniStatuslineFileinfo = { bg = colors.mantle },
 } end
 
 return {
