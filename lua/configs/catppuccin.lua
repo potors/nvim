@@ -56,6 +56,34 @@ local highlights = function(colors) return {
     MiniFilesBorder = { fg = colors.surface2 },
     MiniFilesTitle = { fg = colors.subtext1 },
     MiniFilesTitleFocused = { fg = colors.blue },
+
+    -- cmp
+    CmpItemKindSnippet = { fg = colors.mantle, bg = colors.mauve },
+    CmpItemKindKeyword = { fg = colors.mantle, bg = colors.sky },
+    CmpItemKindText = { fg = colors.mantle, bg = colors.teal },
+    CmpItemKindMethod = { fg = colors.mantle, bg = colors.blue },
+    CmpItemKindConstructor = { fg = colors.mantle, bg = colors.lavender },
+    CmpItemKindFunction = { fg = colors.mantle, bg = colors.blue },
+    CmpItemKindFolder = { fg = colors.mantle, bg = colors.blue },
+    CmpItemKindModule = { fg = colors.mantle, bg = colors.lavender },
+    CmpItemKindConstant = { fg = colors.mantle, bg = colors.peach },
+    CmpItemKindField = { fg = colors.mantle, bg = colors.green },
+    CmpItemKindProperty = { fg = colors.mantle, bg = colors.green },
+    CmpItemKindEnum = { fg = colors.mantle, bg = colors.red },
+    CmpItemKindUnit = { fg = colors.mantle, bg = colors.red },
+    CmpItemKindClass = { fg = colors.mantle, bg = colors.yellow },
+    CmpItemKindVariable = { fg = colors.mantle, bg = colors.flamingo },
+    CmpItemKindFile = { fg = colors.mantle, bg = colors.blue },
+    CmpItemKindInterface = { fg = colors.mantle, bg = colors.yellow },
+    CmpItemKindColor = { fg = colors.mantle, bg = colors.maroon },
+    CmpItemKindReference = { fg = colors.mantle, bg = colors.pink },
+    CmpItemKindEnumMember = { fg = colors.mantle, bg = colors.red },
+    CmpItemKindStruct = { fg = colors.mantle, bg = colors.yellow },
+    CmpItemKindValue = { fg = colors.mantle, bg = colors.peach },
+    CmpItemKindEvent = { fg = colors.mantle, bg = colors.blue },
+    CmpItemKindOperator = { fg = colors.mantle, bg = colors.sky },
+    CmpItemKindTypeParameter = { fg = colors.mantle, bg = colors.rosewater },
+    CmpItemKindCopilot = { fg = colors.mantle, bg = colors.teal },
 } end
 
 return {
@@ -69,5 +97,6 @@ return {
     integrations = {
         mini = { enabled = true },
         treesitter = true,
+        cmp = true,
     }
 }

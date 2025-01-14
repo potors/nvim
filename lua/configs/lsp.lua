@@ -1,7 +1,8 @@
 local lsp = require 'lspconfig'
 local mason = require 'mason-lspconfig'
+local cmp = require 'cmp_nvim_lsp'
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = cmp.default_capabilities()
 local on_attach = function(_, buf)
     for lhs, rhs in pairs {
         ['K'] = vim.lsp.buf.hover,
@@ -30,6 +31,9 @@ local servers = {
                     telemetry = { enable = false },
                     diagnostics = {
                         globals = { 'vim' },
+                    },
+                    runtime = {
+                        path = vim.split(package.path, ';'),
                     },
                     workspace = {
                         library = vim.api.nvim_get_runtime_file('', false),
@@ -79,6 +83,6 @@ end
 
 mason.setup {
     automatic_installation = true,
-    ensure_installed = vim.tbl_extend('force', names(servers), { 'lua_ls' }),
-    handlers = vim.tbl_extend('force', handlers(servers), { default })
+    ensure_installed = vim.tbl_extend('keep', { 'lua_ls' }, names(servers)),
+    handlers = vim.tbl_extend('keep', { default }, handlers(servers))
 }
