@@ -15,3 +15,4 @@ for _, name in ipairs {
 
 require 'options'
 require 'keymaps'
+require 'plugins'
