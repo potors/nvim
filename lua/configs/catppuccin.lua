@@ -84,6 +84,12 @@ local highlights = function(colors) return {
     CmpItemKindOperator = { fg = colors.mantle, bg = colors.sky },
     CmpItemKindTypeParameter = { fg = colors.mantle, bg = colors.rosewater },
     CmpItemKindCopilot = { fg = colors.mantle, bg = colors.teal },
+
+    -- dap
+    DapBreakpoint = { fg = colors.red, style = { 'bold' } },
+    DapStopped = { fg = colors.peach, style = { 'bold' } },
+    NvimDapVirtualText = { fg = colors.subtext1, style = { 'italic' } },
+    NvimDapVirtualTextChanged = { fg = colors.peach, style = { 'italic' } },
 } end
 
 return {

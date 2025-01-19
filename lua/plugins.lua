@@ -105,3 +105,18 @@ add { source = 'hrsh7th/nvim-cmp',
 }
 
 configure 'cmp'
+
+add { source = 'mfussenegger/nvim-dap',
+    depends = {
+        'jay-babu/mason-nvim-dap.nvim',
+        'rcarriga/nvim-dap-ui',
+        'theHamsta/nvim-dap-virtual-text',
+        'nvim-neotest/nvim-nio',
+    },
+}
+
+configure('mason-nvim-dap', 'dap')
+configure('nvim-dap-virtual-text', {
+    virt_text_pos = 'eol',
+    virt_text_win_col = 66,
+})
