@@ -4,7 +4,7 @@ local languages = {
             name = '[nvim/codelldb] Debug - Current File',
             type = 'codelldb',
             request = 'launch',
-            stopAtEntry = false,
+            stopAtEntry = true,
             cwd = '${workspaceFolder}',
             program = function()
                 local filename = vim.fn.expand '%'
@@ -14,7 +14,7 @@ local languages = {
                               or vim.loop.fs_stat 'Makefile'
 
                 if makefile then
-                    os.execute(string.format('make -k clean %s', basename))
+                    vim.cmd('silent! !make -k clean ' .. basename)
                     return basename
                 end
 
@@ -24,7 +24,16 @@ local languages = {
             args = function()
                 local args = {}
 
-                for arg in string.gmatch(vim.fn.input 'Args: ', '%S+') do
+                local text
+                local file = io.open 'input.txt'
+                if file then
+                    text = file:read '*a'
+                    file:close()
+                else
+                    text = vim.fn.input 'Args: '
+                end
+
+                for arg in string.gmatch(text, '%S+') do
                     table.insert(args, arg)
                 end
 
@@ -84,7 +93,6 @@ return function(plugin)
     vim.keymap.set('n', '<F8>', dap.step_out, { desc = 'Debugger: Step Out' })
     vim.keymap.set('n', '<F9>', dap.pause, { desc = 'Debugger: Pause' })
     vim.keymap.set('n', '<F10>', dap.terminate, { desc = 'Debugger: Stop' })
-    vim.keymap.set('n', '<F11>', dap.restart, { desc = 'Debugger: Restart' })
 
     dap.listeners.after.event_initialized['dapui_config'] = ui.open
     dap.listeners.before.event_terminated['dapui_config'] = ui.close

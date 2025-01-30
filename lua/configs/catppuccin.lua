@@ -18,6 +18,7 @@ local colors = {
 
 local highlights = function(colors) return {
     CursorLineNr = { fg = colors.yellow },
+    Visual = { bg = colors.surface2 },
 
     -- syntax
     Number = { fg = colors.yellow },
@@ -32,7 +33,7 @@ local highlights = function(colors) return {
     ['@keyword.exception'] = { fg = colors.red },
 
     -- tabline
-    MiniTablineCurrent = { fg = colors.blue, sp = colors.blue, style = { 'bold', 'underline' } },
+    MiniTablineCurrent = { fg = colors.blue, bg = colors.none, sp = colors.blue, style = { 'bold', 'underline' } },
     MiniTablineVisible = { fg = colors.text },
     MiniTablineHidden = { fg = colors.overlay1, style = { 'italic' } },
     MiniTablineModifiedCurrent = { fg = colors.yellow, sp = colors.yellow, style = { 'bold', 'underline' } },
@@ -42,7 +43,7 @@ local highlights = function(colors) return {
 
     -- statusline
     MiniStatuslineFilename = { fg = colors.subtext0, bg = colors.none },
-    MiniStatuslineFileinfo = { bg = colors.mantle },
+    MiniStatuslineFileinfo = { bg = colors.none },
 
     -- pick
     MiniPickBorder = { fg = colors.surface2 },
@@ -94,6 +95,8 @@ local highlights = function(colors) return {
 
 return {
     flavour = 'mocha',
+
+    transparent_background = true;
 
     styles = styles,
     color_overrides = colors,
