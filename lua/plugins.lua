@@ -120,3 +120,7 @@ configure('nvim-dap-virtual-text', {
     virt_text_pos = 'eol',
     virt_text_win_col = 66,
 })
+
+add { source = 'lewis6991/gitsigns.nvim' }
+
+configure('gitsigns', 'git')
