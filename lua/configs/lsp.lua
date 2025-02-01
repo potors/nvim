@@ -11,12 +11,12 @@ local on_attach = function(_, buf)
         ['gt'] = vim.lsp.buf.type_definition,
         ['gi'] = vim.lsp.buf.implementation,
         ['gh'] = vim.lsp.buf.signature_help,
-        ['gr'] = vim.lsp.buf.references,
+        ['gr'] = vim.lsp.buf.rename,
+        ['gR'] = vim.lsp.buf.references,
         ['gc'] = vim.lsp.buf.code_action,
         ['gl'] = vim.lsp.codelens.run,
         ['[d'] = vim.diagnostic.goto_prev,
         [']d'] = vim.diagnostic.goto_next,
-        ['<leader>gr'] = vim.lsp.buf.rename,
         ['<leader>gf'] = vim.lsp.buf.format,
     } do vim.keymap.set('n', lhs, rhs, { buffer = buf }) end
 end
