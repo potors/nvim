@@ -10,7 +10,7 @@ end)
 
 -- buffers
 vim.keymap.set('n', '<leader>c', vim.cmd.enew, { desc = 'Create buffer' })
-vim.keymap.set('n', '<leader>x', vim.cmd.bdel, { desc = 'Delete buffer' })
+vim.keymap.set('n', '<leader>x', [[:bp | bd#<CR>]], { desc = 'Delete buffer' })
 vim.keymap.set('n', '<leader>w', vim.cmd.write, { desc = 'Save buffer' })
 vim.keymap.set('n', '<tab>', vim.cmd.bnext, { desc = 'Next buffer' })
 vim.keymap.set('n', '<s-tab>', vim.cmd.bprev, { desc = 'Prev buffer' })
