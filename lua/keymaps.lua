@@ -25,3 +25,6 @@ vim.keymap.set('n', '<c-l>', [[<c-w><c-l>]], { desc = 'Jump to right window' })
 vim.keymap.set('n', '<leader>tu', [[m`viwU``]], { desc = 'To upper case' })
 vim.keymap.set('n', '<leader>tl', [[m`viwu``]], { desc = 'To lower case' })
 vim.keymap.set('n', '<leader>tt', [[m`viwu~``]], { desc = 'To title case' })
+
+-- markdown
+vim.keymap.set('v', '<leader>mt', [[:!sed 's/|/ | /g' | tr -s ' ' | column -t -s '|' -o '|'<CR>]], { desc = 'Format Markdown Table' })
