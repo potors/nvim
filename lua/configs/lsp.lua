@@ -38,14 +38,25 @@ local servers = {
                     workspace = {
                         library = vim.api.nvim_get_runtime_file('', false),
                         checkThirdParty = false,
-                    }
-                }
+                    },
+                },
             }
         }
     end,
 
+    clangd = function()
+        lsp.clangd.setup {
+            capabilities = capabilities,
+            on_attach = function(client, buf)
+                client.server_capabilities.semanticTokensProvider = nil
+
+                return on_attach(client, buf)
+            end,
+        }
+    end,
+
     'luau_lsp', 'pyright', 'bashls',
-    'clangd', 'gopls', 'rust_analyzer', 'zls', 'elixirls',
+    'gopls', 'rust_analyzer', 'zls', 'elixirls',
     'html', 'cssls', 'ts_ls', 'svelte',
     'jsonls', 'yamlls',
     'dockerls', 'sqls',

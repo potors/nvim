@@ -50,6 +50,37 @@ local languages = {
                 },
             },
         },
+        {
+            name = '[nvim/codelldb] Debug - Current Test',
+            type = 'codelldb',
+            request = 'launch',
+            stopAtEntry = true,
+            cwd = '${workspaceFolder}',
+            program = function()
+                local source = vim.fn.expand '%'
+                local test = 'build/' .. vim.fn.expand '%:r' .. '.t'
+
+                local makefile = vim.loop.fs_stat 'makefile'
+                              or vim.loop.fs_stat 'Makefile'
+
+                if makefile then
+                    vim.cmd('silent! !make -k ' .. test)
+                    return test
+                end
+
+                os.execute(string.format('cc -g -o %s %s', test, source))
+                return test
+            end,
+            MIMode = 'gdb',
+            miDebuggerPath = 'gdb',
+            setupCommands = {
+                {
+                    text = '-enable-pretty-printing',
+                    description = 'enable pretty printing',
+                    ignoreFailures = false,
+                },
+            },
+        }
     },
 }
 
