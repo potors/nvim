@@ -59,7 +59,7 @@ local servers = {
     'gopls', 'rust_analyzer', 'zls', 'elixirls',
     'html', 'cssls', 'ts_ls', 'svelte',
     'jsonls', 'yamlls',
-    'dockerls', 'sqls',
+    'dockerls', -- 'sqls',
 }
 
 local function default(server)
@@ -95,5 +95,5 @@ end
 mason.setup {
     automatic_installation = true,
     ensure_installed = vim.tbl_extend('keep', { 'lua_ls' }, names(servers)),
-    handlers = vim.tbl_extend('keep', { default }, handlers(servers))
+    handlers = vim.tbl_extend('keep', { default }, handlers(servers)),
 }

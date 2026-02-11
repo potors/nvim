@@ -57,7 +57,7 @@ return function(cmp)
                 end
 
                 fallback()
-            end, { 'i', 's' })
+            end, { 'i', 's' }),
         }),
         sources = {
             { name = 'nvim_lsp_signature_help' },
@@ -78,19 +78,22 @@ return function(cmp)
             },
         },
         formatting = {
-            fields = { 'kind', 'abbr', 'menu' },
-            format = function(entry, item)
-                local fmt = require 'lspkind'.cmp_format({
-                    mode = 'symbol_text',
-                    max_width = 50,
-                })(entry, item)
+            fields = { 'icon', 'abbr', 'menu', 'kind' },
+            format = require 'lspkind'.cmp_format({
+                maxwidth = {
+                    menu = 50,
+                    abbr = 50,
+                },
+                ellipsis_char = '...',
+                show_labelDetails = true,
 
-                local strings = vim.split(fmt.kind, '%s', { trimempty = true })
-                fmt.kind = ' ' .. strings[1] .. ' '
-                fmt.menu = '    (' .. strings[2] .. ')'
+                before = function(_, item)
+                    item.icon = ' ' .. item.icon .. '  '
+                    item.kind = '(' .. item.kind .. ')'
 
-                return fmt
-            end,
+                    return item
+                end
+            }),
         },
         view = {
             entries = {

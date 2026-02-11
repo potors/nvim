@@ -149,15 +149,15 @@ return function(plugin)
             port = '${port}',
             executable = {
                 command = 'codelldb',
-                args = { '--port', '${port}' }
-            }
-        }
+                args = { '--port', '${port}' },
+            },
+        },
     }
 
     dap.configurations = vim.tbl_extend('force', dap.configurations, languages)
 
     return {
         ensure_installed = names(daps),
-        handlers = vim.tbl_extend('keep', { default }, handlers(daps))
+        handlers = vim.tbl_extend('keep', { default }, handlers(daps)),
     }
 end
