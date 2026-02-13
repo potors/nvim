@@ -87,7 +87,13 @@ return function(cmp)
                 ellipsis_char = '...',
                 show_labelDetails = true,
 
-                before = function(_, item)
+                before = function(entry, item)
+                    local colored = require 'nvim-highlight-colors'.format(entry, { kind = item.kind })
+
+                    if colored.abbr_hl_group then
+                        item.abbr_hl_group = colored.abbr_hl_group
+                    end
+
                     item.icon = ' ' .. item.icon .. '  '
                     item.kind = '(' .. item.kind .. ')'
 

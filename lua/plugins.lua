@@ -126,9 +126,15 @@ MiniDeps.later(function()
             'L3MON4D3/LuaSnip',
             'saadparwaiz1/cmp_luasnip',
 
-            'onsails/lspkind.nvim'
+            'onsails/lspkind.nvim',
+            'brenoprata10/nvim-highlight-colors'
         }
     }
+
+    configure('nvim-highlight-colors', {
+        render = 'foreground',
+        enable_tailwind = true
+    })
 
     configure('cmp')
 
