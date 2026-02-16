@@ -113,7 +113,7 @@ MiniDeps.later(function()
     }
 
     configure('mason')
-    configure('lsp')
+    require 'configs.lsp'
 
     add { source = 'hrsh7th/nvim-cmp',
         depends = {
@@ -155,4 +155,12 @@ MiniDeps.later(function()
 
     add { source = 'lewis6991/gitsigns.nvim' }
     configure('gitsigns', 'git')
+
+    add { source = 'windwp/nvim-ts-autotag' }
+    configure('nvim-ts-autotag', {
+        opts = { enable_close_on_slash = true }
+    })
+
+    add { source = 'MeanderingProgrammer/render-markdown.nvim' }
+    configure('render-markdown', 'markdown')
 end)

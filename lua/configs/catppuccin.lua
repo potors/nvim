@@ -117,6 +117,30 @@ local highlights = function(colors) return {
     DapStopped = { fg = colors.peach, style = { 'bold' } },
     NvimDapVirtualText = { fg = colors.subtext1, style = { 'italic' } },
     NvimDapVirtualTextChanged = { fg = colors.peach, style = { 'italic' } },
+
+    -- markdown
+    RenderMarkdownH1   = { fg = colors.red },
+    RenderMarkdownH1Bg = { bg = colors.base },
+    RenderMarkdownH2   = { fg = colors.peach },
+    RenderMarkdownH2Bg = { bg = colors.base },
+    RenderMarkdownH3   = { fg = colors.yellow },
+    RenderMarkdownH3Bg = { bg = colors.base },
+    RenderMarkdownH4   = { fg = colors.green },
+    RenderMarkdownH4Bg = { bg = colors.base },
+    RenderMarkdownH5   = { fg = colors.sky },
+    RenderMarkdownH5Bg = { bg = colors.base },
+    RenderMarkdownH6   = { fg = colors.blue },
+    RenderMarkdownH6Bg = { bg = colors.base },
+
+    RenderMarkdownCode = { bg = colors.base },
+
+    RenderMarkdownChecked = { fg = colors.green },
+    RenderMarkdownPartial = { fg = colors.yellow },
+    RenderMarkdownUnchecked = { fg = colors.red },
+
+    ["@markup.quote"] = { fg = colors.lavender, style = { 'italic' } },
+
+    ["@markup.link.label"] = { fg = colors.blue },
 } end
 
 return {
