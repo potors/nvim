@@ -26,6 +26,7 @@ local highlights = function(colors) return {
     Boolean = { fg = colors.red },
 
     ['@property'] = { fg = colors.lavender },
+    ['@type.builtin'] = { fg = colors.yellow },
 
     Keyword = { fg = colors.sky },
     ['@keyword.repeat'] = { fg = colors.yellow },

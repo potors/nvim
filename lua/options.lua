@@ -55,3 +55,9 @@ vim.opt.shm = 'lmroOtTAIc'
 vim.opt.path:append ',**'
 
 vim.cmd 'syntax off'
+
+vim.diagnostic.config {
+    virtual_lines = {
+        current_line = true
+    }
+}

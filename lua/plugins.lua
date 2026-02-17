@@ -80,6 +80,8 @@ MiniDeps.now(function()
 
     configure('mini.tabline')
     configure('mini.statusline')
+
+    add { source = 'hrsh7th/cmp-nvim-lsp' }
 end)
 
 MiniDeps.later(function()
@@ -104,23 +106,13 @@ MiniDeps.later(function()
     configure('mini.pick')
     configure('mini.files')
 
-    add { source = 'neovim/nvim-lspconfig',
-        depends = {
-            'hrsh7th/cmp-nvim-lsp',
-            'williamboman/mason.nvim',
-            'williamboman/mason-lspconfig.nvim'
-        }
-    }
-
-    configure('mason')
-    require 'configs.lsp'
-
     add { source = 'hrsh7th/nvim-cmp',
         depends = {
             'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-calc',
             'hrsh7th/cmp-cmdline',
+            'hrsh7th/cmp-nvim-lsp',
             'hrsh7th/cmp-nvim-lsp-signature-help',
 
             'L3MON4D3/LuaSnip',
