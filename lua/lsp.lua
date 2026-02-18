@@ -24,12 +24,58 @@ vim.lsp.config('luals', {
     }
 })
 
-vim.lsp.config('clangd', { cmd = { 'clangd' }, filetypes = { 'c', 'cpp' } })
-vim.lsp.config('pyright', { cmd = { 'pyright-langserver' }, filetypes = { 'python' } })
-vim.lsp.config('gopls', { cmd = { 'gopls' }, filetypes = { 'go', 'gomod' } })
-vim.lsp.config('zls', { cmd = { 'zls' }, filetypes = { 'zig' } })
-vim.lsp.config('rustls', { cmd = { 'rust-analyzer' }, filetypes = { 'rust' } })
-vim.lsp.config('htmlls', { cmd = { 'vscode-html-languageserver' }, filetypes = { 'html' } })
-vim.lsp.config('cssls', { cmd = { 'vscode-css-languageserver' }, filetypes = { 'css', 'scss' } })
+vim.lsp.config('clangd', {
+    cmd = { 'clangd' },
+    filetypes = { 'c', 'cpp', 'objc', 'cuda' },
+    root_markers = {
+        '.clangd',
+        '.clang-tidy',
+        '.clang-format',
+        'compile-commands.json',
+        'compile-flags.txt',
+        'configure.ac',
+    }
+})
+
+vim.lsp.config('pyright', {
+    cmd = { 'pyright-langserver' },
+    filetypes = { 'python' },
+    root_markers = {
+        'pyproject.toml',
+        'setup.py',
+        'setup.cfg',
+        'requirements.txt',
+        'Pipfile',
+        'pyrightconfig.json',
+    }
+})
+
+vim.lsp.config('gopls', {
+    cmd = { 'gopls' },
+    filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+    root_markers = { 'go.work', 'go.mod' }
+})
+
+vim.lsp.config('zls', {
+    cmd = { 'zls' },
+    filetypes = { 'zig', 'zir' },
+    root_markers = { 'zls.json', 'build.zig' }
+})
+
+vim.lsp.config('rustls', {
+    cmd = { 'rust-analyzer' },
+    filetypes = { 'rust' },
+    root_markers = { 'Cargo.toml' },
+})
+
+vim.lsp.config('htmlls', {
+    cmd = { 'vscode-html-languageserver', '--stdio' },
+    filetypes = { 'html' },
+})
+
+vim.lsp.config('cssls', {
+    cmd = { 'vscode-css-languageserver', '--stdio' },
+    filetypes = { 'css', 'scss', 'less' },
+})
 
 vim.lsp.enable { 'luals', 'clangd', 'pyright', 'gopls', 'zls', 'rustls', 'htmlls', 'cssls' }
