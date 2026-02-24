@@ -82,6 +82,21 @@ MiniDeps.now(function()
     configure('mini.statusline')
 
     add { source = 'hrsh7th/cmp-nvim-lsp' }
+
+    add { source = 'mfussenegger/nvim-dap',
+        depends = {
+            'rcarriga/nvim-dap-ui',
+            'theHamsta/nvim-dap-virtual-text',
+            'nvim-neotest/nvim-nio'
+        }
+    }
+
+    configure('dap')
+
+    -- configure('nvim-dap-virtual-text', {
+    --     virt_text_pos = 'eol',
+    --     virt_text_win_col = 66,
+    -- })
 end)
 
 MiniDeps.later(function()
@@ -129,21 +144,6 @@ MiniDeps.later(function()
     })
 
     configure('cmp')
-
-    add { source = 'mfussenegger/nvim-dap',
-        depends = {
-            'jay-babu/mason-nvim-dap.nvim',
-            'rcarriga/nvim-dap-ui',
-            'theHamsta/nvim-dap-virtual-text',
-            'nvim-neotest/nvim-nio'
-        }
-    }
-
-    configure('mason-nvim-dap', 'dap')
-    configure('nvim-dap-virtual-text', {
-        virt_text_pos = 'eol',
-        virt_text_win_col = 66,
-    })
 
     add { source = 'lewis6991/gitsigns.nvim' }
     configure('gitsigns', 'git')
