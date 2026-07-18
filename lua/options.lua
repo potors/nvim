@@ -54,7 +54,7 @@ vim.opt.clipboard = 'unnamedplus'
 vim.opt.shm = 'lmroOtTAIc'
 vim.opt.path:append ',**'
 
-vim.cmd 'syntax off'
+vim.cmd 'syntax on'
 
 vim.diagnostic.config {
     virtual_lines = {

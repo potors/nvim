@@ -34,7 +34,8 @@ return function(plugin)
     return {
         window = {
             config = window,
-            prompt_prefix = ' ',
+            prompt_prefix = '',
+            prompt_caret = '',
         },
         mappings = {
             move_down = '<c-j>',

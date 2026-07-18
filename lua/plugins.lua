@@ -87,7 +87,8 @@ MiniDeps.now(function()
         depends = {
             'rcarriga/nvim-dap-ui',
             'theHamsta/nvim-dap-virtual-text',
-            'nvim-neotest/nvim-nio'
+            'nvim-neotest/nvim-nio',
+            -- 'leoluz/nvim-dap-go',
         }
     }
 
@@ -101,7 +102,6 @@ end)
 
 MiniDeps.later(function()
     add { source = 'nvim-treesitter/nvim-treesitter', name = 'treesitter',
-        checkout = 'master', monitor = 'main',
         hooks = {
             post_checkout = function()
                 vim.cmd 'TSUpdate'
@@ -109,7 +109,7 @@ MiniDeps.later(function()
         }
     }
 
-    configure('nvim-treesitter.configs', 'treesitter')
+    configure('nvim-treesitter', 'treesitter')
 
     configure('mini.ai')
     configure('mini.comment')
@@ -148,11 +148,21 @@ MiniDeps.later(function()
     add { source = 'lewis6991/gitsigns.nvim' }
     configure('gitsigns', 'git')
 
-    add { source = 'windwp/nvim-ts-autotag' }
-    configure('nvim-ts-autotag', {
-        opts = { enable_close_on_slash = true }
-    })
+    -- add { source = 'windwp/nvim-ts-autotag' }
+    -- configure('nvim-ts-autotag', {
+    --     opts = { enable_close_on_slash = true }
+    -- })
 
     add { source = 'MeanderingProgrammer/render-markdown.nvim' }
     configure('render-markdown', 'markdown')
+
+    add { source = 'nvim-lua/plenary.nvim' }
+    add { source = 'nvim-telescope/telescope.nvim', {
+        depends = 'nvim-lua/plenary.nvim'
+    }}
+
+    configure('telescope')
+
+    add { source = '3rd/image.nvim' }
+    configure('image')
 end)

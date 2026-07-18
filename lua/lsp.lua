@@ -17,7 +17,7 @@ vim.lsp.config('luals', {
             diagnostics = { globals = { 'vim' } },
             runtime = { path = vim.split(package.path, ';') },
             workspace = {
-                library = vim.api.nvim_get_runtime_file('', false),
+                -- library = vim.api.nvim_get_runtime_file('', false),
                 checkThirdParty = false,
             }
         }
@@ -25,8 +25,8 @@ vim.lsp.config('luals', {
 })
 
 vim.lsp.config('clangd', {
-    cmd = { 'clangd' },
-    filetypes = { 'c', 'cpp', 'objc', 'cuda' },
+    cmd = { 'clangd', '--background-index', '--clang-tidy', '--query-driver=xtensa-esp-elf-gcc,riscv32-esp-elf-gcc' },
+    filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
     root_markers = {
         '.clangd',
         '.clang-tidy',
@@ -38,7 +38,7 @@ vim.lsp.config('clangd', {
 })
 
 vim.lsp.config('pyright', {
-    cmd = { 'pyright-langserver' },
+    cmd = { 'pyright-langserver', '--stdio' },
     filetypes = { 'python' },
     root_markers = {
         'pyproject.toml',
@@ -78,4 +78,30 @@ vim.lsp.config('cssls', {
     filetypes = { 'css', 'scss', 'less' },
 })
 
-vim.lsp.enable { 'luals', 'clangd', 'pyright', 'gopls', 'zls', 'rustls', 'htmlls', 'cssls' }
+vim.lsp.config('texlab', {
+    cmd = { 'texlab' },
+    filetypes = { 'tex' },
+})
+
+vim.lsp.config('elixirls', {
+    cmd = { 'elixir-ls' },
+    filetypes = { 'elixir' },
+})
+
+vim.lsp.config('sveltels', {
+    cmd = { 'svelteserver' },
+    filetypes = { 'svelte' },
+})
+
+-- vim.lsp.config('inols', {
+--     cmd = { 'inols' },
+--     filetypes = { 'arduino' },
+--     disabledFeatures = { 'semanticTokens' },
+--     root_markers = { '*.ino' },
+--     capabilities = {
+--         textDocument = { semanticTokens = vim.NIL },
+--         workspace = { semanticTokens = vim.NIL },
+--     },
+-- })
+
+vim.lsp.enable { 'luals', 'clangd', 'pyright', 'gopls', 'zls', 'rustls', 'htmlls', 'cssls', 'texlab', 'elixirls', 'svelte' }

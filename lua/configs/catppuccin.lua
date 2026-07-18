@@ -17,7 +17,7 @@ local colors = {
 }
 
 local highlights = function(colors) return {
-    CursorLineNr = { fg = colors.yellow },
+    CursorLineNr = { fg = colors.yellow, style = { 'bold' } },
     Visual = { bg = colors.surface2 },
 
     -- syntax
@@ -26,7 +26,9 @@ local highlights = function(colors) return {
     Boolean = { fg = colors.red },
 
     ['@property'] = { fg = colors.lavender },
+    ['@type'] = { fg = colors.yellow },
     ['@type.builtin'] = { fg = colors.yellow },
+    ['@function'] = { fg = colors.blue },
     ['@function.builtin'] = { fg = colors.blue },
 
     Keyword = { fg = colors.sky },

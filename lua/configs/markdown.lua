@@ -10,9 +10,7 @@ return {
 
         position = 'inline',
 
-        border = { true, true, true, false, false, false },
-        border_virtual = true,
-        border_prefix = true,
+        border = false,
     },
     code = {
         language_border = ' ',

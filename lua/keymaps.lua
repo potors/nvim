@@ -14,6 +14,9 @@ vim.keymap.set('n', '<leader>w', vim.cmd.write, { desc = 'Save buffer' })
 vim.keymap.set('n', '<tab>', vim.cmd.bnext, { desc = 'Next buffer' })
 vim.keymap.set('n', '<s-tab>', vim.cmd.bprev, { desc = 'Prev buffer' })
 
+-- marks
+vim.keymap.set('n', '\'', [[`]], { desc = 'Jump to mark on PTBR keyboard'})
+
 -- window movement
 vim.keymap.set('n', '<c-h>', [[<c-w><c-h>]], { desc = 'Jump to left window' })
 vim.keymap.set('n', '<c-j>', [[<c-w><c-j>]], { desc = 'Jump to bottom window' })
