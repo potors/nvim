@@ -1,63 +1,49 @@
 vim.g.mapleader = ','
 
--- indentation
-vim.opt.si = true
-vim.opt.ai = true
-vim.opt.sr = true
-
--- tabs and spaces
-vim.opt.et = true -- use spaces
-vim.opt.ts = 4 -- tab width
-vim.opt.sw = 0 -- space width
-
--- line number
-vim.opt.nu = true
-vim.opt.nuw = 2
-vim.opt.rnu = true
-vim.opt.scl = 'yes'
-
--- highlight
-vim.opt.cul = true  -- current line
-vim.opt.cc = '65'   -- column limit
-
--- spacings
-vim.opt.so = 4   -- lines around
-vim.opt.siso = 8 -- columns around
-
--- search
-vim.opt.is = true
-vim.opt.ic = true
-vim.opt.scs = true
-
--- buffer
-vim.opt.wrap = false
-vim.opt.backup = false
-vim.opt.swapfile = false
-vim.opt.undofile = true
-
--- completion
-vim.opt.ph = 12
-vim.opt.pw = 36
-
-vim.opt.wop = { 'pum', 'tagfile' }
-vim.opt.cot = { 'menu', 'menuone', 'noselect', 'noinsert' }
-
--- split
-vim.opt.sb = true
-vim.opt.spr = true
-
--- others
-vim.opt.termguicolors = true
-
 vim.opt.clipboard = 'unnamedplus'
+vim.opt.shortmess:append 'mrAIc'
+vim.opt.path = { '.', '**' }
+vim.cmd 'syntax off'
 
-vim.opt.shm = 'lmroOtTAIc'
-vim.opt.path:append ',**'
+for key, value in pairs({
+    -- indentation
+    ai = true, -- auto indent
+    si = true, -- smart indent
+    sr = true, -- use multiples of indent size
+    et = true, -- use spaces instead of tabs
+    ts = 4,    -- tab is equivalent as 4 spaces
+    sw = 0,    -- use 4 spaces for indentation
 
-vim.cmd 'syntax on'
+    -- number column
+    nu = true,   -- enable line number
+    rnu = true,  -- relative number
+    nuw = 2,     -- it uses at least 2 characters
+    scl = 'yes', -- display sign column
 
-vim.diagnostic.config {
-    virtual_lines = {
-        current_line = true
-    }
-}
+    -- highlight
+    cul = true, -- highlight current line
+    cc = '60',  -- highlight Nth column
+
+    -- spacing
+    so = 4,   -- min lines around cursor (vertical)
+    siso = 8, -- min chars around cursor (horizontal)
+
+    -- search
+    is = true,  -- highlight while writing search
+    ic = true,  -- ignore case
+    scs = true, -- unless it has uppercase
+
+    -- buffer
+    wrap = false, -- line wrap
+    wb = false,   -- file backup
+    swf = false,  -- swapfile (bogus annoying)
+    udf = true,  -- undofiles (they can get very big)
+
+    -- split
+    sb = true,  -- splits below if true
+    spr = true, -- splits to right if true
+
+    -- other
+    tgc = true, -- termguicolors
+    cot = '', -- completion opts (i'm using blink.cmp)
+}) do vim.opt[key] = value end

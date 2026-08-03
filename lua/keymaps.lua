@@ -1,53 +1,51 @@
--- exit insert/terminal mode
-vim.keymap.set('i', 'jk', [[<esc>]], { desc = 'Exit insert mode' })
-vim.keymap.set('t', 'jk', [[<c-\><c-n>]], { desc = 'Exit terminal mode' })
+-- Function to delete buffers while not closing
+-- it's window and allowing close the last one
+local function delete_buffer()
+    local buf = vim.api.nvim_get_current_buf()
+    local win = vim.api.nvim_get_current_win()
 
--- esc clear visual clues
-vim.keymap.set('n', '<esc>', function()
-    vim.cmd.nohlsearch()
-    vim.cmd.diffupdate()
-end)
+    local buffers = vim.fn.getbufinfo { buflisted = 1 }
 
--- buffer
-vim.keymap.set('n', '<leader>x', [[:bp | bd#<CR>]], { desc = 'Delete buffer' })
-vim.keymap.set('n', '<leader>w', vim.cmd.write, { desc = 'Save buffer' })
-vim.keymap.set('n', '<tab>', vim.cmd.bnext, { desc = 'Next buffer' })
-vim.keymap.set('n', '<s-tab>', vim.cmd.bprev, { desc = 'Prev buffer' })
-
--- marks
-vim.keymap.set('n', '\'', [[`]], { desc = 'Jump to mark on PTBR keyboard'})
-
--- window movement
-vim.keymap.set('n', '<c-h>', [[<c-w><c-h>]], { desc = 'Jump to left window' })
-vim.keymap.set('n', '<c-j>', [[<c-w><c-j>]], { desc = 'Jump to bottom window' })
-vim.keymap.set('n', '<c-k>', [[<c-w><c-k>]], { desc = 'Jump to upper window' })
-vim.keymap.set('n', '<c-l>', [[<c-w><c-l>]], { desc = 'Jump to right window' })
-
--- words
-vim.keymap.set('n', '<leader>tu', [[m`viwU``]], { desc = 'To upper case' })
-vim.keymap.set('n', '<leader>tl', [[m`viwu``]], { desc = 'To lower case' })
-vim.keymap.set('n', '<leader>tt', [[m`viwu~``]], { desc = 'To title case' })
-
--- markdown
-vim.keymap.set('v', '<leader>mt', [[:!sed 's/|/ | /g' | tr -s ' ' | column -t -s '|' -o '|'<CR>]], { desc = 'Format Markdown Table' })
-
--- lsp
-vim.api.nvim_create_autocmd('LspAttach', {
-    callback = function(cb)
-        for lhs, rhs in pairs {
-            ['K'] = vim.lsp.buf.hover,
-            ['gD'] = vim.lsp.buf.declaration,
-            ['gd'] = vim.lsp.buf.definition,
-            ['gt'] = vim.lsp.buf.type_definition,
-            ['gi'] = vim.lsp.buf.implementation,
-            ['gh'] = vim.lsp.buf.signature_help,
-            ['gr'] = vim.lsp.buf.rename,
-            ['gR'] = vim.lsp.buf.references,
-            ['gc'] = vim.lsp.buf.code_action,
-            ['gl'] = vim.lsp.codelens.run,
-            ['[d'] = vim.diagnostic.goto_prev,
-            [']d'] = vim.diagnostic.goto_next,
-            ['<leader>gf'] = vim.lsp.buf.format,
-        } do vim.keymap.set('n', lhs, rhs, { buffer = cb.buf }) end
+    if #buffers <= 1 then
+        local new = vim.api.nvim_create_buf(true, false)
+        vim.api.nvim_win_set_buf(win, new)
+    else
+        for _, b in ipairs(buffers) do
+            if b.bufnr ~= buf then
+                vim.api.nvim_win_set_buf(win, b.bufnr)
+                break
+            end
+        end
     end
-})
+
+    vim.api.nvim_buf_delete(buf, { force = true })
+end
+
+local mappings = {
+    -- Instinctual Mappings
+    { 'i', 'jk',        [[<esc>]],      { desc = 'Exit Insert Mode' } },
+    { 't', 'jk',        [[<c-\><c-n>]], { desc = 'Exit Terminal Mode' } },
+    { 'n', '<esc>',     [[:noh<cr>]],   { desc = 'Clear Search Highlights On ESC' } },
+    { 'c', '<esc>',     [[<c-c>]],      { desc = 'Do not run incomplete command on ESC' } },
+    { 'c', '<c-a>',     [[<c-b>]],      { desc = 'Same goto-start-of-line shortcut' } },
+
+    -- Keyboard Facilities
+    { 'n', '\'',        [[`]],          { desc = 'Jump to mark on ptbr keyboard' } },
+
+    -- Buffer Navigation
+    { 'n', '<leader>x', delete_buffer,  { desc = 'Delete Buffer' } },
+    { 'n', '<leader>w', [[:w<cr>]],     { desc = 'Save buffer' } },
+    { 'n', '<tab>',     [[:bn<cr>]],    { desc = 'Next buffer' } },
+    { 'n', '<s-tab>',   [[:bp<cr>]],    { desc = 'Prev buffer' } },
+
+    -- Window Navigation
+    { 'n', '<c-h>',     [[<c-w><c-h>]], { desc = 'Jump to Left Window' } },
+    { 'n', '<c-j>',     [[<c-w><c-j>]], { desc = 'Jump to Bottom Window' } },
+    { 'n', '<c-k>',     [[<c-w><c-k>]], { desc = 'Jump to Upper Window' } },
+    { 'n', '<c-l>',     [[<c-w><c-l>]], { desc = 'Jump to Right Window' } },
+}
+
+for _, mapping in ipairs(mappings) do
+    pcall(vim.keymap.del, unpack(mapping, 1, 2))
+    pcall(vim.keymap.set, unpack(mapping))
+end

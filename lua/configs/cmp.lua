@@ -1,110 +1,157 @@
+---@param cmp blink.cmp.API
 return function(cmp)
-    cmp.setup.cmdline(':', {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-            { name = 'cmdline' },
-            { name = 'path' },
+    cmp.build():pwait()
+
+    local abort = {
+        function()
+            cmp.cancel()
+        end,
+        'fallback'
+    }
+
+    local selection = {
+        preselect = false,
+        auto_insert = false,
+    }
+
+    local colorful = require 'colorful-menu'
+    local hlcolors = require 'nvim-highlight-colors'
+    local styles = {
+        label = {
+            text = colorful.blink_components_text,
+            highlight = colorful.blink_components_highlight,
         },
-    })
 
-    cmp.setup.cmdline('/', {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-            { name = 'buffer' },
-        },
-    })
+        kind_icon = {
+            text = function(ctx)
+                local icon = ctx.kind_icon
 
-    local snippet = require 'luasnip'
+                local fmt = ctx.item.documentation
+                local opts = { kind = ctx.kind }
 
-    local select = cmp.SelectBehavior.Select
-    local replace = cmp.ConfirmBehavior.Replace
-
-    return {
-        snippet = {
-            expand = function(args)
-                snippet.lsp_expand(args.body)
-            end
-        },
-        mapping = cmp.mapping.preset.insert({
-            ['<c-space>'] = cmp.mapping.complete(),
-            ['<c-e>'] = cmp.mapping.abort(),
-
-            ['<up>'] = function(fallback) fallback() end,
-            ['<down>'] = function(fallback) fallback() end,
-
-            ['<c-j>'] = cmp.mapping.select_next_item { behavior = select },
-            ['<c-k>'] = cmp.mapping.select_prev_item { behavior = select },
-
-            ['<c-h>'] = cmp.mapping.open_docs(),
-            ['<c-s-j>'] = cmp.mapping.scroll_docs(4),
-            ['<c-s-k>'] = cmp.mapping.scroll_docs(-4),
-
-            ['<tab>'] = cmp.mapping(function(fallback)
-                if cmp.visible() then
-                    return cmp.mapping.confirm { select = true, behavior = replace }()
-                end
-
-                if snippet.expand_or_jumpable() then
-                    return snippet.expand_or_jump()
-                end
-
-                fallback()
-            end, { 'i', 's' }),
-
-            ['<s-tab>'] = cmp.mapping(function(fallback)
-                if snippet.jumpable(-1) then
-                    return snippet.jump(-1)
-                end
-
-                fallback()
-            end, { 'i', 's' }),
-        }),
-        sources = {
-            { name = 'nvim_lsp_signature_help' },
-            { name = 'nvim_lsp' },
-            { name = 'luasnip' },
-            { name = 'path' },
-            { name = 'calc' },
-        },
-        window = {
-            completion = cmp.config.window.bordered {
-                col_offset = -3,
-                side_padding = 0,
-                winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None',
-                border = '',
-            },
-            documentation = cmp.config.window.bordered {
-                winhighlight = 'Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None',
-            },
-        },
-        formatting = {
-            fields = { 'icon', 'abbr', 'menu', 'kind' },
-            format = require 'lspkind'.cmp_format({
-                maxwidth = {
-                    menu = 50,
-                    abbr = 50,
-                },
-                ellipsis_char = '...',
-                show_labelDetails = true,
-
-                before = function(entry, item)
-                    local colored = require 'nvim-highlight-colors'.format(entry, { kind = item.kind })
-
-                    if colored.abbr_hl_group then
-                        item.abbr_hl_group = colored.abbr_hl_group
+                if ctx.item.source_name == 'LSP' then
+                    local color = hlcolors.format(fmt, opts)
+                    if color then
+                        icon = color.abbr ~= ''
+                            and color.abbr or icon
                     end
-
-                    item.icon = ' ' .. item.icon .. '  '
-                    item.kind = '(' .. item.kind .. ')'
-
-                    return item
                 end
-            }),
+
+                return icon .. ctx.icon_gap
+            end,
+
+
+            highlight = function(ctx)
+                local hl = 'BlinkCmpKind' .. ctx.kind
+
+                local fmt = ctx.item.documentation
+                local opts = { kind = ctx.kind }
+
+                if ctx.item.source_name == 'LSP' then
+                    local color = hlcolors.format(fmt, opts)
+                    if color then
+                        hl = color.abbr_hl_group or hl
+                    end
+                end
+
+                return hl
+            end,
         },
-        view = {
-            entries = {
-                name = 'custom',
+    }
+
+    ---@type blink.cmp.Config
+    return {
+        keymap = {
+            preset = 'none',
+
+            ['<esc>'] = abort,
+            ['<space>'] = abort,
+
+            ['<c-space>'] = {
+                function()
+                    cmp.show_signature()
+                end,
+                cmp.show,
+                cmp.show_documentation,
+                cmp.hide_documentation,
             },
+
+            ['<tab>'] = {
+                cmp.accept,
+                cmp.snippet_forward,
+                cmp.select_and_accept,
+                'fallback'
+            },
+
+            ['<s-tab>'] = {
+                cmp.snippet_backward,
+                'fallback',
+            },
+
+            ['<c-j>'] = { cmp.select_next, 'fallback' },
+            ['<c-k>'] = { cmp.select_prev, 'fallback' },
+            ['<c-d>'] = { cmp.scroll_documentation_down, 'fallback' },
+            ['<c-u>'] = { cmp.scroll_documentation_up, 'fallback' },
+        },
+
+        completion = {
+            list = { selection = selection },
+
+            accept = {
+                auto_brackets = {
+                    enabled = false,
+                },
+            },
+
+            menu = {
+                auto_show = true,
+
+                min_width = 36,
+                max_height = 7,
+
+                draw = {
+                    snippet_indicator = '%',
+                    treesitter = { 'lsp' },
+
+                    -- colorful-menu thing
+                    columns = {
+                        { 'kind_icon' },
+                        { 'label', gap = 1 },
+                    },
+
+                    components = styles,
+                }
+            },
+
+            ghost_text = {
+                enabled = true,
+
+                show_without_menu = false,
+            }
+        },
+
+        cmdline = {
+            keymap = {
+                preset = 'inherit',
+
+                ['<cr>'] = {
+                    function()
+                        cmp.accept()
+                    end,
+                    'fallback'
+                }
+            },
+
+            completion = {
+                list = { selection = selection },
+                menu = { auto_show = true },
+
+                ghost_text = { enabled = true },
+            }
+        },
+
+        signature = {
+            enabled = true,
         },
     }
 end

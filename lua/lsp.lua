@@ -1,107 +1,69 @@
-local capabilities = vim.tbl_deep_extend('force',
-    vim.lsp.protocol.make_client_capabilities(),
-    require 'cmp_nvim_lsp'.default_capabilities())
+-- Using luals and clangd from package manager as of now
+-- TODO: simple lua package utility (you define it download)
+
+local path = vim.fn.stdpath 'config' .. '/lsp'
+local files = vim.fn.glob(path .. '/*.lua', nil, true)
+
+local cmp = require 'blink.cmp'
+local capabilities = cmp.get_lsp_capabilities(nil, true)
+
+local servers = {}
+for i, file in ipairs(files) do
+    servers[i] = file:match '/(%w+).lua$'
+end
 
 vim.lsp.config('*', {
     capabilities = capabilities,
     root_markers = { '.git' },
 })
 
-vim.lsp.config('luals', {
-    cmd = { 'lua-language-server' },
-    filetypes = { 'lua' },
+vim.lsp.enable(servers)
 
-    settings = {
-        Lua = {
-            telemetry = { enable = false },
-            diagnostics = { globals = { 'vim' } },
-            runtime = { path = vim.split(package.path, ';') },
-            workspace = {
-                -- library = vim.api.nvim_get_runtime_file('', false),
-                checkThirdParty = false,
-            }
-        }
-    }
+local function open_diagnostic(at)
+    return function()
+        vim.diagnostic.jump { count = at }
+        vim.diagnostic.open_float()
+    end
+end
+
+vim.api.nvim_create_autocmd('LspAttach', {
+    callback = function(event)
+        for key, mapping in pairs {
+            ['K']  = { vim.lsp.buf.hover, { desc = 'Hover Information' } },
+            ['gr'] = { vim.lsp.buf.rename, { desc = 'Rename Symbol' } },
+            ['gd'] = { vim.lsp.buf.definition, { desc = 'Goto Definition' } },
+            ['gD'] = { vim.lsp.buf.declaration, { desc = 'Goto Declaration' } },
+            ['gi'] = { vim.lsp.buf.implementation, { desc = 'Goto Implementation' } },
+            ['gt'] = { vim.lsp.buf.type_definition, { desc = 'Goto Type Definition' } },
+            ['gR'] = { vim.lsp.buf.references, { desc = 'Search References' } },
+            ['ga'] = { vim.lsp.buf.code_action, { desc = 'Open Code Actions Window' } },
+            ['[d'] = { open_diagnostic(-1), { desc = 'Goto Prev Diagnostic' } },
+            [']d'] = { open_diagnostic(1), { desc = 'Goto Next Diagnostic' } },
+        } do
+            ---@type unknown, unknown
+            local action, opts = unpack(mapping)
+
+            vim.keymap.set('n', key, action, vim.tbl_extend('force', opts, { buffer = event.buf }))
+        end
+    end,
 })
 
-vim.lsp.config('clangd', {
-    cmd = { 'clangd', '--background-index', '--clang-tidy', '--query-driver=xtensa-esp-elf-gcc,riscv32-esp-elf-gcc' },
-    filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
-    root_markers = {
-        '.clangd',
-        '.clang-tidy',
-        '.clang-format',
-        'compile-commands.json',
-        'compile-flags.txt',
-        'configure.ac',
-    }
-})
-
-vim.lsp.config('pyright', {
-    cmd = { 'pyright-langserver', '--stdio' },
-    filetypes = { 'python' },
-    root_markers = {
-        'pyproject.toml',
-        'setup.py',
-        'setup.cfg',
-        'requirements.txt',
-        'Pipfile',
-        'pyrightconfig.json',
-    }
-})
-
-vim.lsp.config('gopls', {
-    cmd = { 'gopls' },
-    filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
-    root_markers = { 'go.work', 'go.mod' }
-})
-
-vim.lsp.config('zls', {
-    cmd = { 'zls' },
-    filetypes = { 'zig', 'zir' },
-    root_markers = { 'zls.json', 'build.zig' }
-})
-
-vim.lsp.config('rustls', {
-    cmd = { 'rust-analyzer' },
-    filetypes = { 'rust' },
-    root_markers = { 'Cargo.toml' },
-})
-
-vim.lsp.config('htmlls', {
-    cmd = { 'vscode-html-languageserver', '--stdio' },
-    filetypes = { 'html' },
-})
-
-vim.lsp.config('cssls', {
-    cmd = { 'vscode-css-languageserver', '--stdio' },
-    filetypes = { 'css', 'scss', 'less' },
-})
-
-vim.lsp.config('texlab', {
-    cmd = { 'texlab' },
-    filetypes = { 'tex' },
-})
-
-vim.lsp.config('elixirls', {
-    cmd = { 'elixir-ls' },
-    filetypes = { 'elixir' },
-})
-
-vim.lsp.config('sveltels', {
-    cmd = { 'svelteserver' },
-    filetypes = { 'svelte' },
-})
-
--- vim.lsp.config('inols', {
---     cmd = { 'inols' },
---     filetypes = { 'arduino' },
---     disabledFeatures = { 'semanticTokens' },
---     root_markers = { '*.ino' },
---     capabilities = {
---         textDocument = { semanticTokens = vim.NIL },
---         workspace = { semanticTokens = vim.NIL },
---     },
--- })
-
-vim.lsp.enable { 'luals', 'clangd', 'pyright', 'gopls', 'zls', 'rustls', 'htmlls', 'cssls', 'texlab', 'elixirls', 'svelte' }
+vim.diagnostic.config {
+    virtual_text = true,
+    virtual_lines = false,
+    severity_sort = true,
+    update_in_insert = false,
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = '!',
+            [vim.diagnostic.severity.WARN] = '*',
+            [vim.diagnostic.severity.INFO] = '?',
+            [vim.diagnostic.severity.HINT] = '+',
+        },
+    },
+    float = {
+        border = 'rounded',
+        source = 'if_many',
+        focusable = false,
+    },
+}
