@@ -88,9 +88,7 @@ configure 'mini.statusline'
 configure 'mini.trailspace'
 
 configure 'mini.pick'
-configure('mini.files', function(plugin)
-    vim.keymap.set('n', [[<leader>e]], plugin.open, { desc = 'Open File Explorer' })
-end)
+configure 'mini.files'
 
 configure 'mini.ai'
 configure 'mini.comment'
