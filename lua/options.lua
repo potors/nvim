@@ -3,7 +3,6 @@ vim.g.mapleader = ','
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.shortmess:append 'mrAIc'
 vim.opt.path = { '.', '**' }
-vim.cmd 'syntax off'
 
 for key, value in pairs({
     -- indentation
